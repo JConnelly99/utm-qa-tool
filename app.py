@@ -4,9 +4,17 @@ import csv
 import email
 import io
 import os
+import subprocess
 import sys
 from email import policy
 from urllib.parse import parse_qs, urlparse
+
+# Install Playwright's Chromium browser at startup if not already present
+_marker = os.path.expanduser("~/.cache/ms-playwright/.installed")
+if not os.path.exists(_marker):
+    subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
+    os.makedirs(os.path.dirname(_marker), exist_ok=True)
+    open(_marker, "w").close()
 
 import streamlit as st
 from bs4 import BeautifulSoup
